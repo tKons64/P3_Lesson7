@@ -3,6 +3,7 @@ package me.tretyakovv.p3_lesson5.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Data
@@ -13,7 +14,7 @@ public class Recipe {
 
     private int preparationTime;
 
-    private List<Ingredient> ingredients;
+    private HashMap<Long, Ingredient> ingredients;
 
     private List<String> steps;
 

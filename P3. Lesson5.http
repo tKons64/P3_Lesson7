@@ -1,0 +1,16 @@
+POST http://localhost:8080/ingredient
+Content-Type: application/json
+
+{
+  "title": "Пшеничная мука",
+  "quantity": 6,
+  "measureUnit": "ст. ложек"
+}
+
+### GET request with parameter
+GET http://localhost:8080/recipe/0
+Accept: application/json
+
+### GET request with parameter
+GET http://localhost:8080/ingredient/all
+Accept: application/json

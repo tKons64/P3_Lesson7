@@ -2,9 +2,19 @@ package me.tretyakovv.p3_lesson5.services;
 
 import me.tretyakovv.p3_lesson5.model.Recipe;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
 public interface RecipeService {
 
-    void add(Recipe recipe);
+    long addRecipe(Recipe recipe);
 
-    Recipe get(int id);
+    Recipe getRecipe(long id);
+
+    Collection<Recipe> getAllRecipe();
+
+    boolean updateRecipe(long id, Recipe recipe);
+
+    boolean deleteRecipe(long id);
 }
