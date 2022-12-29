@@ -61,4 +61,8 @@ public class IngredientController {
        return ResponseEntity.ok(ingredientService.deleteIngredient(id));
     }
 
+    @GetMapping("/page")
+    public ResponseEntity<?> getAllIngredientByPage(@RequestParam int numberPage) {
+        return ResponseEntity.ok(ingredientService.getAllIngredientByPage(numberPage));
+    }
 }

@@ -72,4 +72,24 @@ public class IngredientServiceImpl implements IngredientService {
         }
         return false;
     }
+
+    @Override
+    public List<Ingredient> getAllIngredientByPage(int numberPage) {
+        List<Ingredient> listIngredientLimited = new LinkedList<>();
+
+        int onePage = 2;
+        int start = onePage * numberPage - onePage;
+        int end = onePage * numberPage;
+
+        int counter = 0;
+
+        for (Ingredient ingredient : getAllIngredient()) {
+            if (counter >= start && counter < end) {
+                listIngredientLimited.add(ingredient);
+            }
+            counter++;
+        }
+        return listIngredientLimited;
+    }
+
 }

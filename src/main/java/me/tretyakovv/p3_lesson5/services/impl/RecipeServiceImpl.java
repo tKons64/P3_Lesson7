@@ -5,8 +5,7 @@ import me.tretyakovv.p3_lesson5.model.Recipe;
 import me.tretyakovv.p3_lesson5.services.RecipeService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -52,5 +51,32 @@ public class RecipeServiceImpl implements RecipeService {
         return false;
     }
 
+    @Override
+    public Recipe findRecipeByIngrediantId(long idIngrediant) {
+        for (Recipe recipe : listRecipe.values()) {
+            if (recipe.getIngredients().containsKey(idIngrediant)) {
+                return recipe;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Recipe> findRecipesByIngrediants(long[] arrIngredientsId) {
+        HashMap<Long, Ingredient> listIngredients = new HashMap<>();
+        List<Recipe> listRecipes = new LinkedList<>();
+        boolean recipeFits = false;
+
+        for (Recipe recipe : listRecipe.values()) {
+            listIngredients = recipe.getIngredients();
+            for (long idIngredient : arrIngredientsId) {
+                recipeFits = listIngredients.containsKey(idIngredient);
+            }
+            if (recipeFits) {
+                listRecipes.add(recipe);
+            }
+        }
+        return listRecipes;
+    }
 
 }

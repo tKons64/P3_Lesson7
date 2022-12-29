@@ -52,4 +52,18 @@ public class RecipeController {
         return ResponseEntity.internalServerError().build();
     }
 
+    @GetMapping("/find/byIngredient")
+    public ResponseEntity<Recipe> findRecipeByIngrediantId(@RequestParam long idIngrediant) {
+        Recipe recipe = recipeService.findRecipeByIngrediantId(idIngrediant);
+        if (recipe == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(recipe);
+    }
+
+    @GetMapping("/find/byIngredients")
+    public ResponseEntity<?> findRecipesByIngrediantsId(@RequestParam long[] idIngrediants) {
+        return ResponseEntity.ok(recipeService.findRecipesByIngrediants(idIngrediants));
+    }
+
 }

@@ -17,4 +17,8 @@ public interface RecipeService {
     boolean updateRecipe(long id, Recipe recipe);
 
     boolean deleteRecipe(long id);
+
+    Recipe findRecipeByIngrediantId(long idIngrediant);
+
+    List<Recipe> findRecipesByIngrediants(long[] arrIngredientsId);
 }
