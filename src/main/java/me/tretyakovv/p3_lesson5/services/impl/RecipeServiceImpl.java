@@ -3,6 +3,7 @@ package me.tretyakovv.p3_lesson5.services.impl;
 import me.tretyakovv.p3_lesson5.model.Ingredient;
 import me.tretyakovv.p3_lesson5.model.Recipe;
 import me.tretyakovv.p3_lesson5.services.RecipeService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,6 +19,9 @@ public class RecipeServiceImpl implements RecipeService {
     public long addRecipe(Recipe recipe) {
         if (recipe.getIngredients() == null) {
             recipe.setIngredients(new HashMap<Long, Ingredient>());
+        }
+        if (StringUtils.isEmpty(recipe.getTitle())) {
+            return -1L;
         }
         listRecipe.put(lasdId, recipe);
         return lasdId++;

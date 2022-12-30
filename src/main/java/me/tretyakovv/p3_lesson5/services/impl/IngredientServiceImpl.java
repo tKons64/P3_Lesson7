@@ -4,6 +4,7 @@ import me.tretyakovv.p3_lesson5.model.Ingredient;
 import me.tretyakovv.p3_lesson5.model.Recipe;
 import me.tretyakovv.p3_lesson5.services.IngredientService;
 import me.tretyakovv.p3_lesson5.services.RecipeService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,6 +24,9 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public long addIngredient(Recipe recipe, Ingredient ingredient) {
+        if (StringUtils.isEmpty(ingredient.getTitle())) {
+            return -1L;
+        }
         HashMap<Long, Ingredient> listIngredients = recipe.getIngredients();
         if (listIngredients == null) {
             listIngredients = new HashMap<>();

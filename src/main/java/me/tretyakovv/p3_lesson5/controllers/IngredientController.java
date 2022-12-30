@@ -1,5 +1,9 @@
 package me.tretyakovv.p3_lesson5.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.tretyakovv.p3_lesson5.model.Ingredient;
 import me.tretyakovv.p3_lesson5.model.Recipe;
 import me.tretyakovv.p3_lesson5.services.IngredientService;
@@ -16,6 +20,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/ingredient")
+@Tag(name = "Ингридиенты", description = "Методы работы с ингридиентами")
 public class IngredientController {
 
     private IngredientService ingredientService;
@@ -27,6 +32,10 @@ public class IngredientController {
     }
 
     @PostMapping
+    @Operation( summary = "Добавить ингридиент в рецепт")
+    @Parameters(value = {
+            @Parameter(name = "idRecipe", description = "ID рецепта")
+    })
     public ResponseEntity<Long> addIngredient(@RequestParam long idRecipe, @RequestBody Ingredient ingredient) {
         Recipe recipe = recipeService.getRecipe(idRecipe);
         if (recipe == null){
@@ -37,6 +46,10 @@ public class IngredientController {
     }
 
     @GetMapping("/{id}")
+    @Operation( summary = "Найти ингридиент")
+    @Parameters(value = {
+            @Parameter(name = "id", description = "ID ингридиента")
+    })
     public ResponseEntity<Ingredient> getIngredient(@PathVariable long id) {
         Ingredient ingredient = ingredientService.getIngredient(id);
         if (ingredient == null) {
@@ -46,22 +59,35 @@ public class IngredientController {
     }
 
     @GetMapping("/all")
+    @Operation( summary = "Вывести все ингридиенты")
     public ResponseEntity<?> getAllIngredient() {
         //List<Ingredient> ingredientList = (List<Ingredient>) ingredientService.getAllIngredient();
         return ResponseEntity.ok(ingredientService.getAllIngredient());
     }
 
     @PutMapping()
+    @Operation( summary = "Обновить ингридиент")
+    @Parameters(value = {
+            @Parameter(name = "id", description = "ID ингридиента")
+    })
     public ResponseEntity<Boolean> updateIngredient(@RequestParam long id, @RequestBody Ingredient ingredient) {
         return ResponseEntity.ok(ingredientService.updateIngredient(id, ingredient));
     }
 
     @DeleteMapping
+    @Operation( summary = "Удалить ингридиент")
+    @Parameters(value = {
+            @Parameter(name = "id", description = "ID ингридиента")
+    })
     public ResponseEntity<Boolean> deleteIngredient(@RequestParam long id) {
        return ResponseEntity.ok(ingredientService.deleteIngredient(id));
     }
 
     @GetMapping("/page")
+    @Parameters(value = {
+            @Parameter(name = "numberPage", description = "Номер страницы коотрую необходимо вывести")
+    })
+    @Operation( summary = "Вевести все ингридиенты постранично (2 шт. на страницу)")
     public ResponseEntity<?> getAllIngredientByPage(@RequestParam int numberPage) {
         return ResponseEntity.ok(ingredientService.getAllIngredientByPage(numberPage));
     }
