@@ -1,9 +1,9 @@
-package me.tretyakovv.p3_lesson5.services.impl;
+package me.tretyakovv.p3_lesson7.services.impl;
 
-import me.tretyakovv.p3_lesson5.model.Ingredient;
-import me.tretyakovv.p3_lesson5.model.Recipe;
-import me.tretyakovv.p3_lesson5.services.IngredientService;
-import me.tretyakovv.p3_lesson5.services.RecipeService;
+import me.tretyakovv.p3_lesson7.model.Ingredient;
+import me.tretyakovv.p3_lesson7.model.Recipe;
+import me.tretyakovv.p3_lesson7.services.IngredientService;
+import me.tretyakovv.p3_lesson7.services.RecipeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

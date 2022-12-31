@@ -1,9 +1,8 @@
-package me.tretyakovv.p3_lesson5.services;
+package me.tretyakovv.p3_lesson7.services;
 
-import me.tretyakovv.p3_lesson5.model.Ingredient;
-import me.tretyakovv.p3_lesson5.model.Recipe;
+import me.tretyakovv.p3_lesson7.model.Ingredient;
+import me.tretyakovv.p3_lesson7.model.Recipe;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface IngredientService {
