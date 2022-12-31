@@ -26,10 +26,10 @@ public class RecipeServiceImpl implements RecipeService {
         this.filesService = filesService;
     }
 
-//    @PostConstruct
-//    private void init() {
-//        readFromFile();
-//    }
+    @PostConstruct
+    private void init() {
+        readFromFile();
+    }
 
     @Override
     public long addRecipe(Recipe recipe) {
@@ -50,6 +50,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public HashMap<Long, Recipe> getRecipes() {
+        return listRecipe;
+    }
+    @Override
     public Collection<Recipe> getAllRecipe() {
         return listRecipe.values();
     }
@@ -58,7 +62,7 @@ public class RecipeServiceImpl implements RecipeService {
     public boolean updateRecipe(long id, Recipe recipe) {
         if (listRecipe.containsKey(id)) {
             listRecipe.put(id, recipe);
-            //saveToFile();
+            saveToFile();
             return true;
         }
         return false;
@@ -114,10 +118,18 @@ public class RecipeServiceImpl implements RecipeService {
     private void readFromFile() {
         String json = filesService.readFromFile();
         try {
-            listRecipe =  new ObjectMapper().readValue(json, new TypeReference<HashMap<Long, Recipe>>() {
+            listRecipe = new ObjectMapper().readValue(json, new TypeReference<HashMap<Long, Recipe>>() {
             });
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
+        }
+        for (Long aLong : listRecipe.keySet()) {
+            if (lasdId < aLong) {
+                lasdId = aLong;
+            }
+        }
+        if (lasdId > 0L) {
+            lasdId++;
         }
     }
 }
