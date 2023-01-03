@@ -1,4 +1,4 @@
-package me.tretyakovv.p3_lesson5;
+package me.tretyakovv.p3_lesson7;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

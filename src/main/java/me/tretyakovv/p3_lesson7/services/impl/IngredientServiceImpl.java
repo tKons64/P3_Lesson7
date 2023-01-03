@@ -1,13 +1,17 @@
-package me.tretyakovv.p3_lesson5.services.impl;
+package me.tretyakovv.p3_lesson7.services.impl;
 
-import me.tretyakovv.p3_lesson5.model.Ingredient;
-import me.tretyakovv.p3_lesson5.model.Recipe;
-import me.tretyakovv.p3_lesson5.services.IngredientService;
-import me.tretyakovv.p3_lesson5.services.RecipeService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import me.tretyakovv.p3_lesson7.model.Ingredient;
+import me.tretyakovv.p3_lesson7.model.Recipe;
+import me.tretyakovv.p3_lesson7.services.FilesService;
+import me.tretyakovv.p3_lesson7.services.IngredientService;
+import me.tretyakovv.p3_lesson7.services.RecipeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,8 +22,11 @@ public class IngredientServiceImpl implements IngredientService {
 
     private RecipeService recipeService;
 
-    public IngredientServiceImpl(RecipeService recipeService) {
+    private FilesService filesService;
+
+    public IngredientServiceImpl(RecipeService recipeService, FilesService filesService) {
         this.recipeService = recipeService;
+        this.filesService = filesService;
     }
 
     @Override
@@ -32,6 +39,8 @@ public class IngredientServiceImpl implements IngredientService {
             listIngredients = new HashMap<>();
         }
         listIngredients.put(lasdId, ingredient);
+        recipe.setIngredients(listIngredients);
+        saveToFile();
         return lasdId++;
     }
 
@@ -60,6 +69,7 @@ public class IngredientServiceImpl implements IngredientService {
         for (Recipe recipe : recipeService.getAllRecipe()) {
             if (recipe.getIngredients().containsKey(id)) {
                 recipe.getIngredients().put(id, igredient);
+                saveToFile();
                 return true;
             }
         }
@@ -96,4 +106,13 @@ public class IngredientServiceImpl implements IngredientService {
         return listIngredientLimited;
     }
 
+    private void saveToFile() {
+        try {
+            String json = new ObjectMapper().writeValueAsString(recipeService.getRecipes());
+            filesService.saveToFile(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

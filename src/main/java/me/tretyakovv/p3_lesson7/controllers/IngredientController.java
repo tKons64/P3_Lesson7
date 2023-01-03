@@ -1,30 +1,23 @@
-package me.tretyakovv.p3_lesson5.controllers;
+package me.tretyakovv.p3_lesson7.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import me.tretyakovv.p3_lesson5.model.Ingredient;
-import me.tretyakovv.p3_lesson5.model.Recipe;
-import me.tretyakovv.p3_lesson5.services.IngredientService;
-import me.tretyakovv.p3_lesson5.services.RecipeService;
+import me.tretyakovv.p3_lesson7.model.Ingredient;
+import me.tretyakovv.p3_lesson7.model.Recipe;
+import me.tretyakovv.p3_lesson7.services.IngredientService;
+import me.tretyakovv.p3_lesson7.services.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/ingredient")
 @Tag(name = "Ингридиенты", description = "Методы работы с ингридиентами")
 public class IngredientController {
 
-    private IngredientService ingredientService;
-    private RecipeService recipeService;
+    private final IngredientService ingredientService;
+    private final RecipeService recipeService;
 
     public IngredientController(IngredientService ingredientService, RecipeService recipeService) {
         this.ingredientService = ingredientService;

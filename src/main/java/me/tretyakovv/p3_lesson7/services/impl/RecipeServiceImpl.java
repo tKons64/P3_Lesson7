@@ -1,11 +1,16 @@
-package me.tretyakovv.p3_lesson5.services.impl;
+package me.tretyakovv.p3_lesson7.services.impl;
 
-import me.tretyakovv.p3_lesson5.model.Ingredient;
-import me.tretyakovv.p3_lesson5.model.Recipe;
-import me.tretyakovv.p3_lesson5.services.RecipeService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import me.tretyakovv.p3_lesson7.model.Ingredient;
+import me.tretyakovv.p3_lesson7.model.Recipe;
+import me.tretyakovv.p3_lesson7.services.FilesService;
+import me.tretyakovv.p3_lesson7.services.RecipeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -14,6 +19,17 @@ public class RecipeServiceImpl implements RecipeService {
     private long lasdId = 0L;
 
     static HashMap<Long, Recipe> listRecipe = new HashMap<>();
+
+    private FilesService filesService;
+
+    public RecipeServiceImpl(FilesService filesService) {
+        this.filesService = filesService;
+    }
+
+    @PostConstruct
+    private void init() {
+        readFromFile();
+    }
 
     @Override
     public long addRecipe(Recipe recipe) {
@@ -24,6 +40,7 @@ public class RecipeServiceImpl implements RecipeService {
             return -1L;
         }
         listRecipe.put(lasdId, recipe);
+        saveToFile();
         return lasdId++;
     }
 
@@ -33,6 +50,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public HashMap<Long, Recipe> getRecipes() {
+        return listRecipe;
+    }
+    @Override
     public Collection<Recipe> getAllRecipe() {
         return listRecipe.values();
     }
@@ -41,6 +62,7 @@ public class RecipeServiceImpl implements RecipeService {
     public boolean updateRecipe(long id, Recipe recipe) {
         if (listRecipe.containsKey(id)) {
             listRecipe.put(id, recipe);
+            saveToFile();
             return true;
         }
         return false;
@@ -83,4 +105,34 @@ public class RecipeServiceImpl implements RecipeService {
         return listRecipes;
     }
 
+    private void saveToFile() {
+        try {
+            String json = new ObjectMapper().writeValueAsString(listRecipe);
+            filesService.saveToFile(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void readFromFile() {
+        String json = filesService.readFromFile();
+        try {
+            listRecipe = new ObjectMapper().readValue(json, new TypeReference<HashMap<Long, Recipe>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        for (Long aLong : listRecipe.keySet()) {
+            if (lasdId < aLong) {
+                lasdId = aLong;
+            }
+        }
+        if (lasdId > 0L) {
+            lasdId++;
+        }
+    }
 }
+
+
+

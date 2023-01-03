@@ -1,6 +1,6 @@
-package me.tretyakovv.p3_lesson5.services;
+package me.tretyakovv.p3_lesson7.services;
 
-import me.tretyakovv.p3_lesson5.model.Recipe;
+import me.tretyakovv.p3_lesson7.model.Recipe;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,6 +11,8 @@ public interface RecipeService {
     long addRecipe(Recipe recipe);
 
     Recipe getRecipe(long id);
+
+    HashMap<Long, Recipe> getRecipes();
 
     Collection<Recipe> getAllRecipe();
 
