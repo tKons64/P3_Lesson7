@@ -18,22 +18,22 @@ public class FilesServiceImpl implements FilesService {
     private String dataFileName;
 
     @Override
-    public boolean saveToFile(String json) {
+    public boolean saveToFile(String json) throws ExceptionService{
         try {
             cleanDataFile();
             Files.writeString(Path.of(dataFilePath, dataFileName), json);
             return true;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ExceptionService("Ошибка записи в файл!");
         }
     }
 
     @Override
-    public String readFromFile() {
+    public String readFromFile() throws ExceptionService {
         try {
             return Files.readString(Path.of(dataFilePath, dataFileName));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ExceptionService("Ошибка чтения файла!");
         }
     }
 
